@@ -1,8 +1,14 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <% document_actions.each do |action| %>
-    <li class="<%= action %>">
-      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
-    </li>
+  <% document_actions.each_pair do |action, opts| %>
+    <% if opts[:formless] %>
+      <li class="<%= action %>">
+        <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :method => :post, :remote => true} %>
+      </li>
+    <% else %>
+      <li class="<%= action %>">
+        <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
+      </li>
+    <% end %>
   <% end %>
   
   <%= render_marc_tools %>

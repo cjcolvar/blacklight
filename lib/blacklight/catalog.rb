@@ -22,8 +22,8 @@ module Blacklight::Catalog
     helper_method :document_actions
 
     def self.add_action name, action_body = nil, opts = {}
-      self.document_actions ||= []
-      self.document_actions << name
+      self.document_actions ||= {}
+      self.document_actions[name] = opts
       define_method name do
 	@response, @documents = action_documents
 	if request.post? and (opts[:validator].present? ? self.send(opts[:validator]) : true)
